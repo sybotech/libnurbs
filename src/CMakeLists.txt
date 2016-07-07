@@ -4,6 +4,15 @@ OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON)
 # build static libs by default
 OPTION(BUILD_STATIC_LIBS "Build static libraries" ON)
 
+OPTION(BUILD_OPENNURBS_EXAMPLES "Build openNURBS example programs" OFF)
+OPTION(BUILD_OPENNURBS_VIEWER "Build openNURBS viewer program" OFF)
+
+if(BUILD_OPENNURBS_EXAMPLES OR BUILD_OPENNURBS_VIEWER)
+	set(NEED_OPENGL TRUE)
+else()
+	set(NEED_OPENGL FALSE)
+endif()
+
 set(OPENNURBS_SOURCES
 		  opennurbs_3dm_attributes.cpp
 		  opennurbs_3dm_properties.cpp
@@ -112,18 +121,22 @@ set(OPENNURBS_SOURCES
 		  opennurbs_zlib.cpp
 		  )
 
-find_package(OpenGL QUIET)
-IF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
-	SET(OPENNURBS_SOURCES ${OPENNURBS_SOURCES} opennurbs_gl.cpp)
-	find_package(GLUT)
-	IF(NOT GLUT_INCLUDE_DIR OR NOT GLUT_glut_LIBRARY)
-		SET(GLUT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/other/freeglut/include)
-		SET(GLUT_glut_LIBRARY freeglut)
-		SET(GLUT_LIBRARIES freeglut)
-		ADD_SUBDIRECTORY(other/freeglut)
-	ENDIF(NOT GLUT_INCLUDE_DIR OR NOT GLUT_glut_LIBRARY)
-	ADD_SUBDIRECTORY(other/glui)
-ENDIF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
+if(NEED_OPENGL)
+	find_package(OpenGL QUIET)
+	IF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
+		SET(OPENNURBS_SOURCES ${OPENNURBS_SOURCES} opennurbs_gl.cpp)
+		find_package(GLUT)
+		IF(NOT GLUT_INCLUDE_DIR OR NOT GLUT_glut_LIBRARY)
+			SET(GLUT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/other/freeglut/include)
+			SET(GLUT_glut_LIBRARY freeglut)
+			SET(GLUT_LIBRARIES freeglut)
+			ADD_SUBDIRECTORY(other/freeglut)
+		ENDIF(NOT GLUT_INCLUDE_DIR OR NOT GLUT_glut_LIBRARY)
+		ADD_SUBDIRECTORY(other/glui)
+	ENDIF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
+	# Include OpenGL only if it is needed
+	include_directories(${OPENGL_INCLUDE_DIR})
+endif(NEED_OPENGL)
 
 SET(OPENNURBS_HEADERS
 		  opennurbs.h
@@ -229,18 +242,11 @@ SET(OPENNURBS_HEADERS
 		  examples_linking_pragmas.h
 		  )
 
-SET(ON_DLL_HEADERS
-		  opennurbs_dll_resource.h
-		  )
+SET(ON_DLL_HEADERS opennurbs_dll_resource.h)
 
-set(OPENNURBS_LINKLIBRARIES
-		  ${ZLIB_LIBRARIES}
-		  )
+set(OPENNURBS_LINKLIBRARIES ${ZLIB_LIBRARIES})
 
-include_directories(
-		  ${ZLIB_INCLUDE_DIRS}
-		  ${OPENGL_INCLUDE_DIR}
-		  )
+include_directories(${ZLIB_INCLUDE_DIRS})
 
 IF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
 		  SET(OPENNURBS_LINKLIBRARIES
@@ -284,7 +290,6 @@ ENDIF(BUILD_STATIC_LIBS)
 
 install(FILES ${OPENNURBS_HEADERS} DESTINATION include/openNURBS)
 
-OPTION(BUILD_OPENNURBS_EXAMPLES "Build openNURBS example programs" ON)
 IF(BUILD_OPENNURBS_EXAMPLES)
 		  ADD_SUBDIRECTORY(example_brep)
 		  ADD_SUBDIRECTORY(example_dump)
@@ -297,7 +302,7 @@ IF(BUILD_OPENNURBS_EXAMPLES)
 		  ADD_SUBDIRECTORY(example_write)
 ENDIF(BUILD_OPENNURBS_EXAMPLES)
 
-IF(GLUT_INCLUDE_DIR AND GLUT_glut_LIBRARY)
+IF(BUILD_OPENNURBS_VIEWER)
 	ADD_SUBDIRECTORY(viewer)
-ENDIF(GLUT_INCLUDE_DIR AND GLUT_glut_LIBRARY)
+ENDIF(BUILD_OPENNURBS_VIEWER)
 
