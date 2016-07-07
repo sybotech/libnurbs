@@ -112,7 +112,7 @@ set(OPENNURBS_SOURCES
 		  opennurbs_zlib.cpp
 		  )
 
-find_package(OpenGL)
+find_package(OpenGL QUIET)
 IF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
 	SET(OPENNURBS_SOURCES ${OPENNURBS_SOURCES} opennurbs_gl.cpp)
 	find_package(GLUT)
