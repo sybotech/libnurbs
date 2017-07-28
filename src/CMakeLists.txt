@@ -109,7 +109,7 @@ set(OPENNURBS_SOURCES
 		  opennurbs_workspace.cpp
 		  opennurbs_wstring.cpp
 		  opennurbs_xform.cpp
-		  opennurbs_zlib.cpp
+#		  opennurbs_zlib.cpp
 		  )
 
 option(BUILD_UI "Build UI" OFF)
@@ -234,18 +234,11 @@ SET(OPENNURBS_HEADERS
 		  examples_linking_pragmas.h
 		  )
 
-SET(ON_DLL_HEADERS
-		  opennurbs_dll_resource.h
-		  )
+SET(ON_DLL_HEADERS opennurbs_dll_resource.h)
 
-set(OPENNURBS_LINKLIBRARIES
-		  ${ZLIB_LIBRARIES}
-		  )
+#set(OPENNURBS_LINKLIBRARIES ${ZLIB_LIBRARIES})
 
-include_directories(
-		  ${ZLIB_INCLUDE_DIRS}
-		  ${OPENGL_INCLUDE_DIR}
-		  )
+include_directories(${ZLIB_INCLUDE_DIRS} ${OPENGL_INCLUDE_DIR})
 
 IF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
 		  SET(OPENNURBS_LINKLIBRARIES

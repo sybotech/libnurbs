@@ -1893,6 +1893,7 @@ private:
 
 private:
   // compressed buffer I/O uses zlib 1.1.3 inflate()/deflate()
+  #ifdef HAVE_ZLIB
   struct
   {
     ON::archive_mode mode; // ON::read = read and inflate,  ON::write = deflate and write
@@ -1903,6 +1904,7 @@ private:
     unsigned char    buffer[sizeof_x_buffer];
     z_stream         strm;
   } m_zlib;
+  #endif
 
   // returns number of bytes written
   size_t WriteDeflate(

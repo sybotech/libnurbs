@@ -12,7 +12,7 @@ OPTION(BUILD_LIBNURBS_DOXYGEN "Create doxygen documentation for developers" OFF)
 OPTION(ENABLE_COMPILER_WARNINGS "Use extra compiler warning flags" ON)
 OPTION(ENABLE_STRICT_COMPILE "Treat compiler warnings as errors" OFF)
 
-find_package(ZLIB)
+find_package(ZLIB REQUIRED)
 
 include(CompilerFlags)
 

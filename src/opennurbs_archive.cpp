@@ -143,10 +143,10 @@ ON_BinaryArchive::ON_BinaryArchive( ON::archive_mode mode )
   m_bEmbedTextureBitmaps = false; // true to embed texture, bump, trace, and wallpaper bitmaps (increases file size)
   m_bSaveRenderMeshes    = false; // true to save meshes used to render B-rep objects (increases file size)
   m_bSaveAnalysisMeshes  = false; // true to save meshes used in surface analysis (increases file size)
-
+#ifdef HAVE_ZLIB
   m_zlib.mode = ON::unknown_archive_mode;
   memset( &m_zlib.strm, 0, sizeof(m_zlib.strm) );
-
+#endif
   m_V1_layer_list = 0;
 }
 
