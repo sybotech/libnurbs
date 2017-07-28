@@ -121,25 +121,6 @@ set(OPENNURBS_SOURCES
 #		  opennurbs_zlib.cpp
 		  )
 
-<<<<<<< HEAD
-option(BUILD_UI "Build UI" OFF)
-
-if(BUILD_UI)
-find_package(OpenGL)
-
-IF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
-	SET(OPENNURBS_SOURCES ${OPENNURBS_SOURCES} opennurbs_gl.cpp)
-	find_package(GLUT)
-	IF(NOT GLUT_INCLUDE_DIR OR NOT GLUT_glut_LIBRARY)
-		SET(GLUT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/other/freeglut/include)
-		SET(GLUT_glut_LIBRARY freeglut)
-		SET(GLUT_LIBRARIES freeglut)
-		ADD_SUBDIRECTORY(other/freeglut)
-	ENDIF(NOT GLUT_INCLUDE_DIR OR NOT GLUT_glut_LIBRARY)
-	ADD_SUBDIRECTORY(other/glui)
-ENDIF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
-endif(BUILD_UI)
-=======
 if(NEED_OPENGL)
 	find_package(OpenGL QUIET)
 	IF(OPENGL_gl_LIBRARY AND OPENGL_glu_LIBRARY)
@@ -156,7 +137,6 @@ if(NEED_OPENGL)
 	# Include OpenGL only if it is needed
 	include_directories(${OPENGL_INCLUDE_DIR})
 endif(NEED_OPENGL)
->>>>>>> 4130aa584c03ec8d1e64e284bec325b04fc2d380
 
 SET(OPENNURBS_HEADERS
 		  opennurbs.h
@@ -264,7 +244,7 @@ SET(OPENNURBS_HEADERS
 
 SET(ON_DLL_HEADERS opennurbs_dll_resource.h)
 
-include_directories(${ZLIB_INCLUDE_DIRS} ${OPENGL_INCLUDE_DIR})
+include_directories(${ZLIB_INCLUDE_DIRS})
 #set(OPENNURBS_LINKLIBRARIES ${ZLIB_LIBRARIES})
 #include_directories(${ZLIB_INCLUDE_DIRS})
 
