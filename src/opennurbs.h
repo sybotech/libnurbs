@@ -68,7 +68,7 @@
 #include "opennurbs_knot.h"           // utilities for working with NURBS knot vectors
 #include "opennurbs_evaluate_nurbs.h" // utilities for evaluating Beziers and NURBS
 #include "opennurbs_textlog.h"        // text log for dumps, error logs, etc.
-//#include "opennurbs_zlib.h"           // ON_BinaryArchive needs z_stream definition.
+#include "opennurbs_zlib.h"           // ON_BinaryArchive needs z_stream definition.
 #include "opennurbs_rtree.h"          // ON_RTree spatial search utility.
 #include "opennurbs_mapchan.h"
 #include "opennurbs_rendering.h"

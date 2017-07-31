@@ -15,6 +15,8 @@
 
 #include "opennurbs.h"
 
+#if HAVE_ZLIB
+
 #if defined(ON_DLL_EXPORTS)
 // When compiling a Windows DLL opennurbs, we
 // statically link ./zlib/.../zlib....lib into
@@ -1412,3 +1414,125 @@ bool ON_CompressedBuffer::CompressionEnd( struct ON_CompressedBufferHelper* help
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+#else
+bool ON_BinaryArchive::WriteCompressedBuffer(
+        size_t sizeof__inbuffer,  // sizeof uncompressed input data
+        const void* inbuffer  // uncompressed input data
+        )
+{
+  return false;
+}
+
+bool ON_BinaryArchive::ReadCompressedBufferSize( size_t* sizeof__outbuffer )
+{
+  return ReadSize(sizeof__outbuffer);
+}
+
+bool ON_BinaryArchive::ReadCompressedBuffer( // read and uncompress
+  size_t sizeof__outbuffer,  // sizeof of uncompressed buffer to read
+  void* outbuffer,           // uncompressed output data returned here
+  int* bFailedCRC
+  )
+{
+  return false;
+}
+
+size_t ON_BinaryArchive::WriteDeflate( // returns number of bytes written
+        size_t sizeof___inbuffer,  // sizeof uncompressed input data ( > 0 )
+        const void* in___buffer     // uncompressed input data ( != NULL )
+        )
+{
+  return 0;
+}
+
+
+bool ON_BinaryArchive::ReadInflate(
+        size_t sizeof___outbuffer,  // sizeof uncompressed data
+        void* out___buffer          // buffer for uncompressed data
+        )
+{
+  return false;
+}
+
+bool ON_BinaryArchive::CompressionInit()
+{
+  return false;
+}
+
+void ON_BinaryArchive::CompressionEnd()
+{
+}
+
+
+bool ON_CompressedBuffer::Write( ON_BinaryArchive& binary_archive ) const
+{
+  return false;
+}
+
+bool ON_CompressedBuffer::Read( ON_BinaryArchive& binary_archive )
+{
+  return false;
+}
+
+bool ON_CompressedBuffer::Compress(
+        size_t sizeof__inbuffer,  // sizeof uncompressed input data
+        const void* inbuffer,     // uncompressed input data
+        int sizeof_element
+        )
+{
+  Destroy();
+  return false;
+}
+
+bool ON_CompressedBuffer::Uncompress(
+          void* outbuffer,
+          int* bFailedCRC
+          ) const
+{
+  return false;
+}
+
+bool ON_CompressedBuffer::WriteChar( 
+        size_t count, const void* buffer         
+        )
+{
+  return false;
+}
+
+
+size_t ON_CompressedBuffer::DeflateHelper( // returns number of bytes written
+        ON_CompressedBufferHelper* helper,
+        size_t sizeof___inbuffer,  // sizeof uncompressed input data ( > 0 )
+        const void* in___buffer     // uncompressed input data ( != NULL )
+        )
+{
+  return 0;
+}
+
+
+bool ON_CompressedBuffer::InflateHelper(
+        ON_CompressedBufferHelper* helper,
+        size_t sizeof___outbuffer,  // sizeof uncompressed data
+        void* out___buffer          // buffer for uncompressed data
+        ) const
+{
+  const size_t max_avail = 0x7FFFFFF0; // See max_avail comment in ON_CompressedBuffer::InflateHelper
+
+  bool rc = false;
+  return rc;
+}
+
+bool ON_CompressedBuffer::CompressionInit( struct ON_CompressedBufferHelper* helper ) const
+{
+  bool rc = false;
+  return rc;
+}
+
+bool ON_CompressedBuffer::CompressionEnd( struct ON_CompressedBufferHelper* helper ) const
+{
+  bool rc = false;
+  return rc;
+}
+
+#endif

@@ -118,7 +118,7 @@ set(OPENNURBS_SOURCES
 		  opennurbs_workspace.cpp
 		  opennurbs_wstring.cpp
 		  opennurbs_xform.cpp
-#		  opennurbs_zlib.cpp
+		  opennurbs_zlib.cpp
 		  )
 
 if(NEED_OPENGL)
