@@ -1535,4 +1535,19 @@ bool ON_CompressedBuffer::CompressionEnd( struct ON_CompressedBufferHelper* help
   return rc;
 }
 
+void ON_CompressedBuffer::Destroy()
+{
+  if ( m_buffer_compressed )
+    onfree(m_buffer_compressed);
+
+  m_sizeof_uncompressed = 0;
+  m_sizeof_compressed   = 0;
+  m_crc_uncompressed    = 0;
+  m_crc_compressed      = 0;
+  m_method              = 0;
+  m_sizeof_element      = 0;
+  m_buffer_compressed   = 0;
+  m_buffer_compressed_capacity = 0;
+}
+
 #endif
